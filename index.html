@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="stylesheet" href="./css/style.css">
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+   <title>Calculator</title>
+</head>
+
+<body>
+   <div class="container">
+      <div class="calculator">
+         <div class="calculator__inner">
+            <form name="form" class="calculator__top">
+               <input name="screen" type="text" class="calculator__result-box" placeholder="0." maxlength="12" readonly>
+            </form>
+            <div class="calculator__bottom">
+               <div class="calculator__row">
+                  <button onclick="pressNumber('7')" class="calculator__button">7</button>
+                  <button onclick="pressNumber('8')" class="calculator__button">8</button>
+                  <button onclick="pressNumber('9')" class="calculator__button">9</button>
+                  <button name="option" onclick="pressOption('divide')"
+                     class="calculator__button calculator__button--option divide">&divide;</button>
+                  <button onclick="pressClean()" class="calculator__button calculator__button--option">c</button>
+               </div>
+               <div class="calculator__row">
+                  <button onclick="pressNumber('4')" class="calculator__button">4</button>
+                  <button onclick="pressNumber('5')" class="calculator__button">5</button>
+                  <button onclick="pressNumber('6')" class="calculator__button">6</button>
+                  <button name="option" onclick="pressOption('multiply')"
+                     class="calculator__button calculator__button--option">&times;</button>
+                  <button onclick="pressSquareRoot(firstNumber)"
+                     class="calculator__button calculator__button--option">&radic;</button>
+               </div>
+               <div class="calculator__row">
+                  <button onclick="pressNumber('1')" class="calculator__button">1</button>
+                  <button onclick="pressNumber('2')" class="calculator__button">2</button>
+                  <button onclick="pressNumber('3')" class="calculator__button">3</button>
+                  <button name="option" onclick="pressOption('minus')"
+                     class="calculator__button calculator__button--option minus">&ndash;</button>
+                  <button name="option" onclick="pressOption('percent')"
+                     class="calculator__button calculator__button--option percent">%</button>
+               </div>
+               <div class="calculator__row">
+                  <button onclick="pressNumber('0')" class="calculator__button">0</button>
+                  <button onclick="pressDecimal('.')" class="calculator__button">.</button>
+                  <button onclick="pressEquals()"
+                     class="calculator__button calculator__button--result result">=</button>
+                  <button name="option" onclick="pressOption('plus')"
+                     class="calculator__button calculator__button--option">+</button>
+                  <button name="option" onclick="pressOption('pow')"
+                     class="calculator__button calculator__button--option ">x&#8319;</button>
+               </div>
+            </div><!-- /. calculator__bottom -->
+         </div><!-- /.calculator__inner -->
+      </div><!-- /.colculator -->
+      <div class="log">
+         <div class="log__title">Последние 100 операций:</div>
+         <ol id="logList" class="log__list">
+            <li id="li" class="log__operation"></li>
+
+         </ol>
+      </div>
+   </div><!-- /. container -->
+   <script>
+      let firstNumber = "0";
+      let secondNumber = "0";
+      let lastOption = null;
+      let newLogs = [];
+      const errorMessage = "Math Error";
+
+      /**Нажатие на кнопку операции*/
+      function pressOption(optionfromScreen) {
+         if (lastOption !== null) {
+            let result = calculate(firstNumber, lastOption, secondNumber);
+            if (result === errorMessage) {
+               document.form.screen.value = errorMessage;
+               pressClean();
+            } else {
+               document.form.screen.value = Math.round10(result, -7);
+               firstNumber = Math.round10(result, -7) + "";
+               secondNumber = "0";
+            }
+         }
+         lastOption = optionfromScreen;
+      }
+      /**Нажатие на кнопку номера*/
+      function pressNumber(number) {
+         if (lastOption === null) {
+            updateFirstNumber(number);
+         } else {
+            updateSecondNumber(number);
+         }
+      }
+      /*Нажатие на кнопку равно*/
+      function pressEquals() {
+         let result = calculate(firstNumber, lastOption, secondNumber);
+         if (result === errorMessage) {
+            pressClean();
+            document.form.screen.value = errorMessage;
+         } else {
+            firstNumber = Math.round10(result, -7) + "";
+            lastOption = null;
+            document.form.screen.value = Math.round10(result, -7);
+            secondNumber = "0";
+         }
+
+      }
+      /*Очистка дисплея*/
+      function pressClean() {
+         document.form.screen.value = "0.";
+         firstNumber = "0";
+         secondNumber = "0";
+      }
+      /*Получение первого числа*/
+      function updateFirstNumber(number) {
+         if (firstNumber === "0") {
+            firstNumber = number + "";
+         } else {
+            firstNumber = firstNumber + number + "";
+         }
+         document.form.screen.value = firstNumber;
+      }
+      /*Получение второго числа*/
+      function updateSecondNumber(number) {
+         if (secondNumber === "0") {
+            secondNumber = number;
+         } else {
+            secondNumber = secondNumber + number;
+         }
+         document.form.screen.value = secondNumber;
+      }
+      /*Добавление лога операции*/
+      function logOperation(logOfOperation) {
+         document.getElementById("logList").innerHTML = "";
+         newLogs.push(logOfOperation);
+         if (newLogs.length == 101) {
+            newLogs.shift();
+         }
+         localStorage.setItem("operation", JSON.stringify(newLogs));
+
+         update();
+
+      }
+      /*Нажатие на операцию извлечения квадратного корня*/
+      function pressSquareRoot() {
+         if (firstNumber < 0) {
+            let logOfOperation;
+            logOfOperation = " √" + firstNumber + " = " + errorMessage;
+            logOperation(logOfOperation);
+            pressClean();
+            document.form.screen.value = errorMessage;
+         } else {
+            let result = Math.sqrt(firstNumber);
+            document.form.screen.value = Math.round10(result, -7);
+            logOfOperation = " √" + firstNumber + " = " + Math.round10(result, -7);
+            firstNumber = Math.round10(result, -7) + "";
+            logOperation(logOfOperation);
+         }
+      }
+
+      /*Вычисление математических операций*/
+      function calculate(a, oper, b) {
+         a = parseFloat(a);
+         b = parseFloat(b);
+         let result;
+         let logOfOperation;
+         if (oper === "pow") {
+            result = Math.pow(a, b);
+            logOfOperation = a + " ^ " + b + " = " + Math.round10(result, -7);
+         } else if (oper === "plus") {
+            result = a + b;
+            logOfOperation = a + " + " + b + " = " + Math.round10(result, -7);
+         } else if (oper === "minus") {
+            result = a - b;
+            logOfOperation = a + " - " + b + " = " + Math.round10(result, -7);
+         } else if (oper === "multiply") {
+            result = a * b;
+            logOfOperation = a + " * " + b + " = " + Math.round10(result, -7);
+         } else if (oper === "divide") {
+            if (b === 0) {
+               logOfOperation = a + " / " + b + " = " + errorMessage;
+               logOperation(logOfOperation);
+               return errorMessage;
+            } else {
+               result = a / b;
+               logOfOperation = a + " / " + b + " = " + Math.round10(result, -7);
+            }
+         } else if (oper === "percent") {
+            result = b * (a / 100);
+            logOfOperation = b + " ( " + a + " / 100 )" + " = " + Math.round10(result, -7);
+         }
+         logOperation(logOfOperation);
+         return Math.round10(result, -7);
+      }
+      /*Нажатие на кнопку "точка"*/
+      function pressDecimal(decimal) {
+         let baselineNumber = document.form.screen.value;
+         if (lastOption == null) {
+            if (baselineNumber.indexOf(".") === -1) {
+               baselineNumber = baselineNumber + decimal;
+               document.form.screen.value = baselineNumber;
+               firstNumber = baselineNumber;
+            }
+         } else {
+            if (baselineNumber.indexOf(".") === -1) {
+               baselineNumber = baselineNumber + decimal;
+               secondNumber = baselineNumber;
+               document.form.screen.value = baselineNumber;
+            }
+         }
+      }
+
+      /*при загрузке браузера получение данных из LocalStorage*/
+      window.onload = function () {
+         newLogs = JSON.parse(localStorage.getItem("operation"));
+         if (newLogs === null) {
+            newLogs = [];
+         }
+         update();
+      }
+
+      /*Создание лога в HTML*/
+      function update() {
+         for (let i = 0; i < newLogs.length; i++) {
+            let li = document.createElement("li");
+            li.innerText = newLogs[i];
+            document.getElementById("logList").appendChild(li);
+
+         }
+      }
+
+      /*Округление вверх до 10.*/
+      /***************************************************************************************/
+      // Замыкание
+      //(function() {
+
+      //Корректировка округления десятичных дробей.
+
+      //@param {String}  type  Тип корректировки.
+      // @param {Number}  value Число.
+      // @param {Integer} exp   Показатель степени (десятичный логарифм основания корректировки).
+      // @returns {Number} Скорректированное значение.
+
+      function decimalAdjust(type, value, exp) {
+         // Если степень не определена, либо равна нулю...
+         if (typeof exp === 'undefined' || +exp === 0) {
+            return Math[type](value);
+         }
+         value = +value;
+         exp = +exp;
+         // Если значение не является числом, либо степень не является целым числом...
+         if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+            return NaN;
+         }
+         // Сдвиг разрядов
+         value = value.toString().split('e');
+         value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+         // Обратный сдвиг
+         value = value.toString().split('e');
+         return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+      }
+
+      // Десятичное округление к ближайшему
+      if (!Math.round10) {
+         Math.round10 = function (value, exp) {
+            return decimalAdjust('round', value, exp);
+         };
+      }
+      // Десятичное округление вниз
+      /*if (!Math.floor10) {
+         Math.floor10 = function(value, exp) {
+            return decimalAdjust('floor', value, exp);
+         };
+      }*/
+      // Десятичное округление вверх
+      /*if (!Math.ceil10) {
+         Math.ceil10 = function(value, exp) {
+            return decimalAdjust('ceil', value, exp);
+         };
+      }*/
+
+      /***************************************************************************************/
+   </script>
+</body>
+
+</html>

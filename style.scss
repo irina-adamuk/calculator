@@ -1,0 +1,502 @@
+$calculatorColor: rgb(54, 53, 53);
+$resultColor: rgb(219, 92, 92);
+$optionColor: rgb(82, 118, 228);
+$buttonColor:  rgb(134, 133, 133);
+$resultBoxColor: rgb(82, 118, 228);
+
+/*Desktop */
+$calculatorWidthLarge: 500px;
+$calculatorHeightLarge: $calculatorWidthLarge*0.9;
+$calculatorPaddingLarge: $calculatorHeightLarge*0.06;
+$calcularorInnerWidthLarge: $calculatorWidthLarge - ($calculatorPaddingLarge*2);
+$calcularorInnerHeightLarge: $calculatorHeightLarge - ($calculatorPaddingLarge*2);
+$buttonWidthLarge: $calculatorWidthLarge*0.123;
+$buttonHeightLarge: $calculatorWidthLarge*0.123;
+
+/*Tablet vertical*/
+$calculatorWidthMiddle: 450px;
+$calculatorHeightMiddle: $calculatorWidthMiddle*0.9;
+$calculatorPaddingMiddle: $calculatorHeightMiddle*0.06;
+$calcularorInnerWidthMiddle: $calculatorWidthMiddle - ($calculatorPaddingMiddle*2);
+$calcularorInnerHeightMiddle: $calculatorHeightMiddle - ($calculatorPaddingMiddle*2);
+$buttonWidthMiddle: $calculatorWidthMiddle*0.123;
+$buttonHeightMiddle: $calculatorWidthMiddle*0.123;
+
+/*Tablet horizontal*/
+$calculatorWidthMiddleH: 500px;
+$calculatorHeightMiddleH: $calculatorWidthMiddleH*0.9;
+$calculatorPaddingMiddleH: $calculatorHeightMiddleH*0.06;
+$calcularorInnerWidthMiddleH: $calculatorWidthMiddleH - ($calculatorPaddingMiddleH*2);
+$calcularorInnerHeightMiddleH: $calculatorHeightMiddleH - ($calculatorPaddingMiddleH*2);
+$buttonWidthMiddleH: $calculatorWidthMiddleH*0.123;
+$buttonHeightMiddleH: $calculatorWidthMiddleH*0.123;
+
+/*Phone horizontal*/
+$calculatorWidthSmallH: 320px;
+$calculatorHeightSmallH: $calculatorWidthSmallH*0.7;
+$calculatorPaddingSmallH: $calculatorHeightSmallH*0.09;
+$calcularorInnerWidthSmallH: $calculatorWidthSmallH - ($calculatorPaddingSmallH*2);
+$calcularorInnerHeightSmallH: $calculatorHeightSmallH - ($calculatorPaddingSmallH*2);
+$buttonWidthSmallH: $calculatorWidthSmallH*0.10;
+$buttonHeightSmallH: $calculatorWidthSmallH*0.10;
+
+/*Phone vertical*/
+$calculatorWidthSmall: 320px;
+$calculatorHeightSmall: $calculatorWidthSmall*0.9;
+$calculatorPaddingSmall: $calculatorHeightSmall*0.06;
+$calcularorInnerWidthSmall: $calculatorWidthSmall - ($calculatorPaddingSmall*2);
+$calcularorInnerHeightSmall: $calculatorHeightSmall - ($calculatorPaddingSmall*2);
+$buttonWidthSmall: $calculatorWidthSmall*0.12;
+$buttonHeightSmall: $calculatorWidthSmall*0.12;
+
+html {
+   font-size: 30px;
+}
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+}
+
+body {
+   background-color: #fff;
+   font-family: 'Open Sans', sans-serif;
+   font-weight: 400;
+}
+
+.container {
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+
+.calculator {
+   background-color: rgb(54, 53, 53);
+   width: $calculatorWidthLarge;
+   height: $calculatorHeightLarge;
+   padding: $calculatorPaddingLarge;
+
+   border-radius: 30px;
+   &__inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: $calcularorInnerWidthLarge;
+      height: $calcularorInnerHeightLarge;
+   }
+   &__top {
+      display: flex;
+
+   }
+   &__result-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-color: $resultBoxColor;
+      width: 100%;
+      height: $calculatorHeightLarge*0.191;
+      border-radius: 25px;
+      outline: none;
+      border: none;
+      text-align: end;
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 700;
+      caret-color: transparent;
+
+      &::placeholder {
+         color: #fff;
+         font-size: 2rem;
+         font-weight: 700;
+      }
+   }
+   &__bottom {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+   }
+   &__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightLarge*0.03;
+         }
+   }
+   &__button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: $buttonColor;
+
+      width: $buttonWidthLarge;
+      height: $buttonHeightLarge;
+      border: none;
+      border-radius: 15px;
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+      color: #fff;
+      &:hover {
+      cursor: pointer;   
+         opacity: 0.5;
+      }
+      
+      &--option {
+         background-color: $optionColor;
+         font-size: 1.5rem;
+      }
+      &--result {
+         background-color: $resultColor;
+         font-size: 1.5rem;
+      }
+   }
+}
+.log {
+   margin-left: 10px;
+   display: flex;
+   flex-direction: column;
+   align-items: start;
+   justify-content: start;
+   padding: 5px 5px 0 5px;
+   border: 1px solid $buttonColor;
+   border-radius: 25px 0 0 0;
+
+   height: $calculatorHeightLarge;
+   width: 400px;
+   overflow-y: scroll;
+      &__title {
+         margin: 0 auto;
+         font-size: 0.5rem;
+         font-weight: 700;
+         color: $optionColor;
+      }
+      &__list {
+         padding: 5px;
+         list-style-position: inside;
+         font-size: 0.43rem;
+         line-height: 0.45rem;
+         color: $calculatorColor;
+            &::marker {
+               font-weight: 700;
+         }
+      }
+      &__operation {
+         display: none;
+      }
+}
+
+li::marker {
+   font-weight: 700;
+}
+
+/* Portrait tablets and small desktops */
+@media (max-width: 1023px) {
+   .container {
+      flex-direction: column;
+   }
+   .calculator {
+      width: $calculatorWidthMiddleH;
+      height: $calculatorHeightMiddleH;
+      padding: $calculatorPaddingMiddle;
+   
+      &__inner {
+         width: $calcularorInnerWidthMiddleH;
+         height: $calcularorInnerHeightMiddleH;
+      }
+
+      &__result-box {
+         height: $calculatorHeightMiddleH*0.191;
+      }
+
+      &__row {
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightMiddleH*0.03;
+         }
+      }
+      &__button {
+         width: $buttonWidthMiddleH;
+         height: $buttonHeightMiddleH;
+
+         &--option {
+            font-size: 1.6rem;
+         }
+      }
+   }
+   .log {
+      margin-top: 10px;
+      margin-left: 0;
+      height: 294px;
+      width: $calculatorWidthMiddleH;
+   }
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+   html {
+      font-size: 20px;
+   }
+   .calculator {
+      width: $calculatorWidthMiddle;
+      height: $calculatorHeightMiddle;
+      padding: $calculatorPaddingMiddle;
+   
+      &__inner {
+         width: $calcularorInnerWidthMiddle;
+         height: $calcularorInnerHeightMiddle;
+      }
+
+      &__result-box {
+         height: $calculatorHeightMiddle*0.191;
+      }
+
+      &__row {
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightMiddle*0.03;
+         }
+      }
+      &__button {
+         width: $buttonWidthMiddle;
+         height: $buttonHeightMiddle;
+      }
+   }
+   .log {
+      height: $calculatorHeightMiddle;
+      width: $calculatorWidthMiddle;
+   }
+}
+
+@media (max-width: 736px) {
+   html{
+      font-size: 15px;
+   }
+   .container {
+      flex-direction: column;
+   }
+   .calculator {
+      width: $calculatorWidthSmall;
+      height: 245px;
+      padding: $calculatorPaddingSmall;
+   
+      &__inner {
+         width: $calcularorInnerWidthSmall;
+         height: 212px;
+      }
+
+      &__result-box {
+         height: $calculatorHeightSmall*0.16;
+      }
+
+      &__row {
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightSmall*0.03;
+         }
+      }
+      &__button {
+         width: 50px;
+         height: 33px;
+      }
+   }
+
+   .log {
+      margin-top: 10px;
+      margin-left: 0;
+      width: $calculatorWidthSmall;
+      height: 113px;
+      &__list {
+         font-size: 0.5rem;
+         line-height: 0.6rem;
+      }
+   }
+}
+@media only screen 
+   and (device-width : 812px) 
+   and (device-height : 375px)
+   and (-webkit-device-pixel-ratio : 3) {
+      html {
+         font-size: 15px;
+      }
+      .container {
+         flex-direction: column;
+      }
+      .calculator {
+         width: $calculatorWidthSmall;
+         height: 245px;
+         padding: $calculatorPaddingSmall;
+      
+         &__inner {
+            width: $calcularorInnerWidthSmall;
+            height: 212px;
+         }
+   
+         &__result-box {
+            height: $calculatorHeightSmall*0.16;
+         }
+   
+         &__row {
+            &:not(:last-child) {
+               margin-bottom: $calculatorHeightSmall*0.03;
+            }
+         }
+         &__button {
+            width: 50px;
+            height: 33px;
+         }
+      }
+   
+      .log {
+         margin-top: 10px;
+         margin-left: 0;
+         width: $calculatorWidthSmall;
+         height: 98px;
+         &__title {
+            font-size: 0.7rem;
+         }
+         &__list {
+            font-size: 0.7rem;
+            line-height: 0.8rem;
+         }
+      }
+   }
+   
+/*6/7/8 horizontal*/
+@media (max-width: 667px) {
+   html{
+      font-size: 15px;
+   }
+   .container {
+      flex-direction: column;
+   }
+   .calculator {
+      width: $calculatorWidthSmallH;
+      height: $calculatorHeightSmallH;
+
+      padding: 12px $calculatorPaddingSmallH;
+   
+      &__inner {
+         width: $calcularorInnerWidthSmallH;
+         height: 200px;
+      }
+
+      &__result-box {
+         height: 40px;
+      }
+
+      &__row {
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightSmallH*0.03;
+         }
+      }
+      &__button {
+         width: 48px;
+         height: $buttonHeightSmallH;
+      }
+   }
+   .log {
+      margin-top: 10px;
+      margin-left: 0;
+      width: $calculatorWidthSmallH;
+      height: 67px;
+      &__list {
+         font-size: 0.5rem;
+         line-height: 0.6rem;
+      }
+   }
+}
+
+/*phone horinontal*/
+@media (max-width: 568px) {
+   html {
+      font-size: 15px;
+   }
+   .container {
+      flex-direction: column;
+   }
+   .calculator {
+      width: $calculatorWidthSmallH;
+      height: $calculatorHeightSmallH;
+
+      padding: 12px $calculatorPaddingSmallH;
+   
+      &__inner {
+         width: $calcularorInnerWidthSmallH;
+         height: 200px;
+      }
+
+      &__result-box {
+         height: 40px;
+      }
+
+      &__row {
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightSmallH*0.03;
+         }
+      }
+      &__button {
+         width: 48px;
+         height: $buttonHeightSmallH;
+      }
+   }
+   .log {
+      margin-top: 10px;
+      margin-left: 0;
+      width: $calculatorWidthSmallH;
+      height: 67px;
+      &__list {
+         font-size: 0.5rem;
+         line-height: 0.6rem;
+      }
+   }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 425px) {
+   .calculator {
+      width: $calculatorWidthSmall;
+      height: $calculatorHeightSmall;
+      padding: $calculatorPaddingSmall;
+   
+      &__inner {
+         width: $calcularorInnerWidthSmall;
+         height: $calcularorInnerHeightSmall;
+      }
+
+      &__result-box {
+         height: $calculatorHeightSmall*0.16;
+      }
+
+      &__row {
+         &:not(:last-child) {
+            margin-bottom: $calculatorHeightSmall*0.03;
+         }
+      }
+      &__button {
+         width: 50px;
+         height: 40px;
+      }
+   }
+
+   .log {
+      width: $calculatorWidthSmall;
+      height: 248px;
+   }
+   .container {
+      flex-direction: column;
+   }
+}
+
+
+
+
+
+
+
+
+
+
